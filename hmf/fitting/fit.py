@@ -121,11 +121,11 @@ def model(parm, h, self):
         if self.verbose > 2:
             print "CONSTRAINT: ", k, getattr(h, k)
 
-    if self.verbose:
+    if self.verbose > 1:
         print "Likelihood: ", ll
-    if self.verbose > 1 :
+    if self.verbose > 2 :
         print "Update Dictionary: ", param_dict
-    if self.verbose > 2:
+    if self.verbose > 3:
         print "Final Quantity: ", q
 
     # Get blobs to return as well.

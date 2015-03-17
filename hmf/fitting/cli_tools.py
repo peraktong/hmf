@@ -109,11 +109,12 @@ class CLIRunner(object):
 
         self.model = res.pop("Model")
         self.model_pickle = self.model.pop("model_file", None)
-        for k in self.model:
-            try:
-                self.model[k] = json.loads(self.model[k])
-            except:
-                pass
+        if self.model_pickle is None:
+            for k in self.model:
+                try:
+                    self.model[k] = json.loads(self.model[k])
+                except:
+                    pass
 
         self.constraints = {k:json.loads(v) for k, v in res["Constraints"].iteritems()}
 
@@ -238,8 +239,9 @@ Either a univariate standard deviation, or multivariate cov matrix must be provi
 
         guess = self.get_guess(params, keys, priors)
 
-        print "KEY NAMES: ", keys
-        print "INITIAL GUESSES: ", guess
+        if self.verbose:
+            print "KEY NAMES: ", keys
+            print "INITIAL GUESSES: ", guess
 
         return priors, keys, guess
 
