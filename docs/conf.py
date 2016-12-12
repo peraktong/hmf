@@ -34,6 +34,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.mathjax',
               'sphinx.ext.viewcode',
               'sphinx.ext.autosummary',
+              'nbsphinx',
               'numpydoc']
 
 numpydoc_show_class_members = False
@@ -94,7 +95,7 @@ release = find_version("..","hmf", "__init__.py")
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build','**.ipynb_checkpoints']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -282,31 +283,32 @@ mathjax_path = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-
 # This does something naughty. It runs the nbconvert command on everything in the
 # given folder, and moves the results to another given folder on every make.
 
-source_ipy_folder = "examples"
-output_ipy_folder = "_exampledoc"
-import shutil
-
-def nbconvert_files(app):
-    fin = app.config.source_ipy_folder
-    fout = app.config.output_ipy_folder
-
-    if os.path.exists(fout):
-        os.system("rm -rf %s"%fout)
-
-    os.mkdir(fout)
-
-    files = [f for f in os.listdir(fin) if f.endswith(".ipynb")]
-
-    for f in files:
-        os.system("jupyter nbconvert {0} --to rst".format(os.path.join(fin,f)))
-        os.rename(f.replace(".ipynb",".rst"),os.path.join(fout,f.replace(".ipynb",".rst")))
-        try:
-            shutil.move(f.replace(".ipynb","_files"),os.path.join(fout,f.replace(".ipynb","_files")))
-        except IOError:
-            pass
-
-def setup(app):
-    app.add_config_value("source_ipy_folder","examples","html")
-    app.add_config_value("output_ipy_folder","_exampledoc","html")
-
-    app.connect("builder-inited",nbconvert_files)
+# source_ipy_folder = "examples"
+# output_ipy_folder = "_exampledoc"
+# import shutil
+#
+# def nbconvert_files(app):
+#     fin = app.config.source_ipy_folder
+#     fout = app.config.output_ipy_folder
+#
+#     if os.path.exists(fout):
+#         os.system("rm -rf %s"%fout)
+#
+#     os.mkdir(fout)
+#
+#     files = [f for f in os.listdir(fin) if f.endswith(".ipynb")]
+#
+#     for f in files:
+#         print f
+#         os.system("jupyter nbconvert {0} --to rst".format(os.path.join(fin,f)))
+#         os.rename(os.path.join(fin,f.replace(".ipynb",".rst")),os.path.join(fout,f.replace(".ipynb",".rst")))
+#         try:
+#             shutil.move(f.replace(".ipynb","_files"),os.path.join(fout,f.replace(".ipynb","_files")))
+#         except IOError:
+#             pass
+#
+# def setup(app):
+#     app.add_config_value("source_ipy_folder","examples","html")
+#     app.add_config_value("output_ipy_folder","_exampledoc","html")
+#
+#     app.connect("builder-inited",nbconvert_files)
