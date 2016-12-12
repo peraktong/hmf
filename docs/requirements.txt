@@ -3,3 +3,4 @@ nbsphinx
 ipykernel
 pandoc
 sphinx>=1.5
+setuptools>=19
