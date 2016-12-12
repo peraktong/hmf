@@ -2,3 +2,4 @@ numpydoc
 nbsphinx
 ipykernel
 pandoc
+sphinx>=1.5
